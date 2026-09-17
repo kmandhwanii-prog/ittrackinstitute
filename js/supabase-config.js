@@ -6,10 +6,10 @@
  * and seamlessly switches to live Supabase once credentials are provided.
  */
 
-// Default configuration placeholders (replace with your project credentials if desired)
+// Live Supabase Configuration
 const DEFAULT_SUPABASE_CONFIG = {
-  url: '', // e.g. 'https://xyzcompany.supabase.co'
-  anonKey: '' // e.g. 'eyJhbGciOiJIUzI1NiIsIn...'
+  url: 'https://ulvubqidotvoeqgozxom.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsdnVicWlkb3R2b2VxZ296eG9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDIzOTAsImV4cCI6MjEwNTIxODM5MH0.txygAsQRTfK8T9rK7ka4o6BhD4nvXByIcFnDF9ZKTn0'
 };
 
 // LocalStorage Keys for custom runtime setup from the Admin panel
