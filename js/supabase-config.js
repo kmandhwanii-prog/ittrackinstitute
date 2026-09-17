@@ -358,6 +358,11 @@ async function testSupabaseConnection(testUrl, testKey) {
   }
 }
 
+function isValidUUID(str) {
+  if (!str || typeof str !== 'string') return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str.trim());
+}
+
 // ==============================================================================
 // UNIFIED DATA ACCESS API (SUPABASE WITH FALLBACK STORE)
 // ==============================================================================
@@ -391,6 +396,42 @@ window.ITTrackDB = {
 
   async addCourse(course) {
     const client = getSupabaseClient();
+
+    if (client) {
+      try {
+        const payload = {
+          title: course.title,
+          slug: course.slug || course.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          category: course.category || 'General',
+          level: course.level || 'Beginner to Advanced',
+          duration: course.duration || '16 Weeks',
+          fee: parseFloat(course.fee) || 0,
+          description: course.description || '',
+          syllabus: Array.isArray(course.syllabus) ? course.syllabus : [],
+          instructor: course.instructor || 'Senior Industry Expert',
+          badge: course.badge || '',
+          is_featured: Boolean(course.is_featured),
+          is_active: course.is_active !== undefined ? course.is_active : true
+        };
+        if (course.id && isValidUUID(course.id)) {
+          payload.id = course.id;
+        }
+
+        const { data, error } = await client.from('courses').insert([payload]).select();
+        if (error) {
+          console.error('Supabase insert course error:', error);
+          return { success: false, message: 'Supabase Error: ' + error.message };
+        }
+        if (data && data.length > 0) {
+          return { success: true, data: data[0], source: 'supabase' };
+        }
+      } catch (err) {
+        console.error('Supabase insert course exception:', err);
+        return { success: false, message: err.message };
+      }
+    }
+
+    // Local fallback
     const newCourse = {
       ...course,
       id: course.id || 'c_' + Date.now(),
@@ -398,19 +439,6 @@ window.ITTrackDB = {
       is_active: course.is_active !== undefined ? course.is_active : true,
       created_at: new Date().toISOString()
     };
-
-    if (client) {
-      try {
-        const { data, error } = await client.from('courses').insert([newCourse]).select();
-        if (!error && data) {
-          return { success: true, data: data[0], source: 'supabase' };
-        }
-      } catch (err) {
-        console.warn('Supabase insert course failed:', err);
-      }
-    }
-
-    // Local fallback
     const courses = JSON.parse(localStorage.getItem(STORAGE_KEYS.MOCK_COURSES) || '[]');
     courses.unshift(newCourse);
     localStorage.setItem(STORAGE_KEYS.MOCK_COURSES, JSON.stringify(courses));
@@ -464,25 +492,46 @@ window.ITTrackDB = {
   // --- APPLICATIONS ---
   async submitApplication(applicationData) {
     const client = getSupabaseClient();
+
+    if (client) {
+      try {
+        const payload = {
+          course_title: applicationData.course_title || 'Selected Program',
+          student_name: applicationData.student_name,
+          student_email: applicationData.student_email,
+          student_phone: applicationData.student_phone,
+          experience_level: applicationData.experience_level || 'Beginner',
+          preferred_timing: applicationData.preferred_timing || 'Weekend',
+          statement: applicationData.statement || '',
+          status: 'pending'
+        };
+
+        // Only include course_id if it's a valid PostgreSQL UUID
+        if (applicationData.course_id && isValidUUID(applicationData.course_id)) {
+          payload.course_id = applicationData.course_id;
+        }
+
+        const { data, error } = await client.from('applications').insert([payload]).select();
+        if (error) {
+          console.error('Supabase application submission error:', error);
+          return { success: false, message: 'Supabase Error: ' + error.message, error };
+        }
+        if (data && data.length > 0) {
+          return { success: true, data: data[0], source: 'supabase' };
+        }
+      } catch (err) {
+        console.error('Supabase application submission exception:', err);
+        return { success: false, message: err.message || 'Failed to submit to Supabase' };
+      }
+    }
+
+    // Local fallback
     const newApp = {
       ...applicationData,
       id: 'app_' + Date.now(),
       status: 'pending',
       created_at: new Date().toISOString()
     };
-
-    if (client) {
-      try {
-        const { data, error } = await client.from('applications').insert([newApp]).select();
-        if (!error && data) {
-          return { success: true, data: data[0], source: 'supabase' };
-        }
-      } catch (err) {
-        console.warn('Supabase application submission failed:', err);
-      }
-    }
-
-    // Local fallback
     const apps = JSON.parse(localStorage.getItem(STORAGE_KEYS.MOCK_APPLICATIONS) || '[]');
     apps.unshift(newApp);
     localStorage.setItem(STORAGE_KEYS.MOCK_APPLICATIONS, JSON.stringify(apps));
@@ -539,25 +588,39 @@ window.ITTrackDB = {
   // --- INQUIRIES ---
   async submitInquiry(inquiryData) {
     const client = getSupabaseClient();
+
+    if (client) {
+      try {
+        const payload = {
+          full_name: inquiryData.full_name,
+          email: inquiryData.email,
+          phone: inquiryData.phone || '',
+          subject: inquiryData.subject || 'General Inquiry',
+          message: inquiryData.message,
+          status: 'new'
+        };
+
+        const { data, error } = await client.from('inquiries').insert([payload]).select();
+        if (error) {
+          console.error('Supabase inquiry submission error:', error);
+          return { success: false, message: 'Supabase Error: ' + error.message };
+        }
+        if (data && data.length > 0) {
+          return { success: true, data: data[0], source: 'supabase' };
+        }
+      } catch (err) {
+        console.error('Supabase inquiry submission exception:', err);
+        return { success: false, message: err.message };
+      }
+    }
+
+    // Local fallback
     const newInquiry = {
       ...inquiryData,
       id: 'inq_' + Date.now(),
       status: 'new',
       created_at: new Date().toISOString()
     };
-
-    if (client) {
-      try {
-        const { data, error } = await client.from('inquiries').insert([newInquiry]).select();
-        if (!error && data) {
-          return { success: true, data: data[0], source: 'supabase' };
-        }
-      } catch (err) {
-        console.warn('Supabase inquiry submission failed:', err);
-      }
-    }
-
-    // Local fallback
     const inquiries = JSON.parse(localStorage.getItem(STORAGE_KEYS.MOCK_INQUIRIES) || '[]');
     inquiries.unshift(newInquiry);
     localStorage.setItem(STORAGE_KEYS.MOCK_INQUIRIES, JSON.stringify(inquiries));
@@ -633,24 +696,38 @@ window.ITTrackDB = {
 
   async addAnnouncement(announcement) {
     const client = getSupabaseClient();
+
+    if (client) {
+      try {
+        const payload = {
+          title: announcement.title,
+          content: announcement.content,
+          category: announcement.category || 'General',
+          link_url: announcement.link_url || '',
+          priority: parseInt(announcement.priority, 10) || 1,
+          is_active: true
+        };
+
+        const { data, error } = await client.from('announcements').insert([payload]).select();
+        if (error) {
+          console.error('Supabase announcement insert error:', error);
+          return { success: false, message: 'Supabase Error: ' + error.message };
+        }
+        if (data && data.length > 0) {
+          return { success: true, data: data[0], source: 'supabase' };
+        }
+      } catch (err) {
+        console.error('Supabase announcement insert exception:', err);
+        return { success: false, message: err.message };
+      }
+    }
+
     const newAnn = {
       ...announcement,
       id: 'ann_' + Date.now(),
       is_active: true,
       created_at: new Date().toISOString()
     };
-
-    if (client) {
-      try {
-        const { data, error } = await client.from('announcements').insert([newAnn]).select();
-        if (!error && data) {
-          return { success: true, data: data[0], source: 'supabase' };
-        }
-      } catch (err) {
-        console.warn('Supabase announcement insert failed:', err);
-      }
-    }
-
     const announcements = JSON.parse(localStorage.getItem(STORAGE_KEYS.MOCK_ANNOUNCEMENTS) || '[]');
     announcements.unshift(newAnn);
     localStorage.setItem(STORAGE_KEYS.MOCK_ANNOUNCEMENTS, JSON.stringify(announcements));

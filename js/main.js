@@ -257,15 +257,19 @@ window.handleApplicationSubmit = async function(e) {
   try {
     const res = await window.ITTrackDB.submitApplication(payload);
     if (res.success) {
-      showToast('Enrollment Application Received!', `Thank you, ${payload.student_name}. Our academic admissions team will contact you within 24 hours.`, 'success');
+      if (res.source === 'supabase') {
+        showToast('Application Received in Supabase!', `Thank you, ${payload.student_name}. Your record is now stored in Supabase!`, 'success');
+      } else {
+        showToast('Application Saved (Demo Mode)', `Notice: Supabase URL and Anon Key are not connected yet. Saved to browser demo store.`, 'info');
+      }
       document.getElementById('application-form').reset();
       closeApplyModal();
     } else {
-      showToast('Submission Issue', res.message || 'Could not submit application. Please try again.', 'error');
+      showToast('Supabase Error', res.message || 'Could not save to Supabase. Check console for details.', 'error');
     }
   } catch (err) {
     console.error('Application submit error:', err);
-    showToast('Error', 'An unexpected error occurred. Please try again.', 'error');
+    showToast('Error', err.message || 'An unexpected error occurred.', 'error');
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Submit Application';
@@ -290,14 +294,18 @@ window.handleInquirySubmit = async function(e) {
   try {
     const res = await window.ITTrackDB.submitInquiry(payload);
     if (res.success) {
-      showToast('Message Sent Successfully!', 'Our academic advisors have received your inquiry and will follow up shortly.', 'success');
+      if (res.source === 'supabase') {
+        showToast('Inquiry Stored in Supabase!', 'Our academic advisors have received your inquiry in Supabase.', 'success');
+      } else {
+        showToast('Message Sent (Demo Mode)', 'Supabase credentials not configured; saved to local browser demo store.', 'info');
+      }
       document.getElementById('inquiry-form').reset();
     } else {
-      showToast('Submission Issue', res.message || 'Could not send inquiry. Please try again.', 'error');
+      showToast('Supabase Error', res.message || 'Could not send inquiry. Please try again.', 'error');
     }
   } catch (err) {
     console.error('Inquiry submit error:', err);
-    showToast('Error', 'An error occurred while sending your message.', 'error');
+    showToast('Error', err.message || 'An error occurred while sending your message.', 'error');
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Send Inquiry to Admissions';
