@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal | IT Track Institute</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Base and Admin Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- 1. Authentication Overlay Screen -->
+  <div id="auth-overlay" class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <span>IT TRACK ADMIN</span>
+        </div>
+        <h2 class="auth-title">Staff & Admin Login</h2>
+        <p class="auth-desc">Authenticate to manage courses, applications, and Supabase backend.</p>
+      </div>
+
+      <div class="auth-helper-box">
+        <strong>⚡ Instant Demo Mode Available:</strong><br>
+        You can log in directly using your Supabase Auth account, or click the quick demo button below to test the entire dashboard immediately.
+      </div>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="login_email">Email Address</label>
+          <input type="email" id="login_email" class="form-input" placeholder="admin@ittrackinstitute.edu" required value="admin@ittrackinstitute.edu">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login_password">Password</label>
+          <input type="password" id="login_password" class="form-input" placeholder="••••••••" required value="AdminPass2026!">
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+          Sign In to Admin Panel
+        </button>
+
+        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.75rem;" onclick="quickDemoLogin()">
+          Quick Demo Bypass (Instant Access)
+        </button>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="index.html" style="font-size: 0.85rem; color: var(--admin-text-muted);">&larr; Return to Public Website</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Main Admin Dashboard Application -->
+  <div id="admin-app" class="admin-layout" style="display: none;">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="logo-icon" style="width: 2rem; height: 2rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <span>IT TRACK</span>
+        </a>
+        <span class="logo-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">ADMIN</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li>
+          <a href="#overview" class="sidebar-nav-item active" data-tab="overview">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="#courses" class="sidebar-nav-item" data-tab="courses">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            Manage Courses
+            <span class="badge-count" id="sidebar-courses-count">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#applications" class="sidebar-nav-item" data-tab="applications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <polyline points="16 11 18 13 22 9"></polyline>
+            </svg>
+            Applications
+            <span class="badge-count" id="sidebar-apps-count">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#inquiries" class="sidebar-nav-item" data-tab="inquiries">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            Inquiries & Leads
+            <span class="badge-count" id="sidebar-inq-count">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#announcements" class="sidebar-nav-item" data-tab="announcements">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            Announcements
+          </a>
+        </li>
+        <li>
+          <a href="#settings" class="sidebar-nav-item" data-tab="settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            Supabase Settings
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-card">
+          <div class="admin-avatar">AD</div>
+          <div class="admin-user-info">
+            <div class="admin-name" id="admin-display-email">Admin Officer</div>
+            <div class="admin-role">Super Administrator</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <a href="index.html" target="_blank" class="btn btn-outline btn-sm" style="flex: 1;">
+            Live Site &nearr;
+          </a>
+          <button onclick="handleAdminLogout()" class="btn btn-outline btn-sm" style="color: #ef4444;" title="Sign Out">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Workspace -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div class="topbar-title-wrap">
+          <h1 id="topbar-heading">Executive Dashboard</h1>
+        </div>
+
+        <div class="topbar-actions">
+          <div id="backend-status-badge" class="backend-indicator">
+            <span class="backend-dot"></span>
+            <span id="backend-status-text">Checking Backend...</span>
+          </div>
+
+          <button id="quick-action-btn" class="btn btn-primary btn-sm" onclick="openAddCourseModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            New Course
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-content">
+        
+        <!-- TAB 1: OVERVIEW -->
+        <div id="tab-overview" class="tab-pane active">
+          <!-- KPI Cards -->
+          <div class="stats-cards-row">
+            <div class="kpi-card">
+              <div>
+                <div class="kpi-label">Total Applications</div>
+                <div class="kpi-value" id="kpi-apps-count">0</div>
+              </div>
+              <div class="kpi-icon kpi-blue">📝</div>
+            </div>
+
+            <div class="kpi-card">
+              <div>
+                <div class="kpi-label">Active Courses</div>
+                <div class="kpi-value" id="kpi-courses-count">0</div>
+              </div>
+              <div class="kpi-icon kpi-emerald">📚</div>
+            </div>
+
+            <div class="kpi-card">
+              <div>
+                <div class="kpi-label">Inquiries & Leads</div>
+                <div class="kpi-value" id="kpi-inq-count">0</div>
+              </div>
+              <div class="kpi-icon kpi-purple">✉️</div>
+            </div>
+
+            <div class="kpi-card">
+              <div>
+                <div class="kpi-label">Announcements</div>
+                <div class="kpi-value" id="kpi-ann-count">0</div>
+              </div>
+              <div class="kpi-icon kpi-amber">📢</div>
+            </div>
+          </div>
+
+          <!-- Recent Applications Panel -->
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h2 class="card-panel-title">Recent Student Applications</h2>
+              <button class="btn btn-outline btn-sm" onclick="switchTab('applications')">
+                View All Applications &rarr;
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Selected Program</th>
+                    <th>Timing</th>
+                    <th>Status</th>
+                    <th>Applied Date</th>
+                    <th>Quick Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-recent-apps">
+                  <!-- Injected by js/admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: COURSES MANAGEMENT -->
+        <div id="tab-courses" class="tab-pane">
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h2 class="card-panel-title">Curriculum & Course Tracks</h2>
+              <div class="table-controls">
+                <input type="text" id="course-search-input" class="search-input" placeholder="Search courses..." oninput="filterCoursesTable()">
+                <button class="btn btn-primary btn-sm" onclick="openAddCourseModal()">
+                  + Add New Course
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Track Title</th>
+                    <th>Category</th>
+                    <th>Duration</th>
+                    <th>Tuition Fee</th>
+                    <th>Level</th>
+                    <th>Badge</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="courses-table-body">
+                  <!-- Injected by js/admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: APPLICATIONS MANAGEMENT -->
+        <div id="tab-applications" class="tab-pane">
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h2 class="card-panel-title">Student Admissions & Enrollment</h2>
+              <div class="table-controls">
+                <select id="apps-status-filter" class="form-select" style="width: auto; padding: 0.45rem 1rem;" onchange="filterApplicationsTable()">
+                  <option value="all">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="under_review">Under Review</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student Details</th>
+                    <th>Contact Info</th>
+                    <th>Program</th>
+                    <th>Experience</th>
+                    <th>Schedule</th>
+                    <th>Status</th>
+                    <th>Update Status</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody id="applications-table-body">
+                  <!-- Injected by js/admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: INQUIRIES & LEADS -->
+        <div id="tab-inquiries" class="tab-pane">
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h2 class="card-panel-title">Prospective Student Inquiries</h2>
+              <div class="table-controls">
+                <select id="inquiries-status-filter" class="form-select" style="width: auto; padding: 0.45rem 1rem;" onchange="filterInquiriesTable()">
+                  <option value="all">All Inquiries</option>
+                  <option value="new">New Inquiries</option>
+                  <option value="responded">Responded</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Sender Name</th>
+                    <th>Contact</th>
+                    <th>Subject</th>
+                    <th>Message Snippet</th>
+                    <th>Received</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="inquiries-table-body">
+                  <!-- Injected by js/admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: ANNOUNCEMENTS -->
+        <div id="tab-announcements" class="tab-pane">
+          <div class="card-panel">
+            <div class="card-panel-header">
+              <h2 class="card-panel-title">Notice Board & News Announcements</h2>
+              <button class="btn btn-primary btn-sm" onclick="openAddAnnouncementModal()">
+                + Post Announcement
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Notice Content</th>
+                    <th>Link Target</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="announcements-table-body">
+                  <!-- Injected by js/admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 6: SUPABASE SETTINGS & CREDENTIALS -->
+        <div id="tab-settings" class="tab-pane">
+          <div class="config-grid">
+            <div class="card-panel">
+              <h2 class="card-panel-title" style="margin-bottom: 1rem;">Supabase Connection Configuration</h2>
+              <p style="color: var(--admin-text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                Connect IT Track Institute directly to your live Supabase project. Enter your project URL and public Anon Key below.
+              </p>
+
+              <form id="supabase-config-form" onsubmit="handleSaveSupabaseConfig(event)">
+                <div class="form-group">
+                  <label class="form-label" for="cfg_url">Supabase Project URL</label>
+                  <input type="url" id="cfg_url" class="form-input" placeholder="https://yourprojectid.supabase.co" required>
+                  <small style="color: var(--admin-text-dim); display: block; margin-top: 0.3rem;">Found in Supabase Dashboard &rarr; Project Settings &rarr; API &rarr; Project URL</small>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="cfg_key">Supabase Public Anon Key</label>
+                  <input type="text" id="cfg_key" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+                  <small style="color: var(--admin-text-dim); display: block; margin-top: 0.3rem;">Found in Supabase Dashboard &rarr; Project Settings &rarr; API &rarr; Project API keys &rarr; anon public</small>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                  <button type="submit" class="btn btn-primary">
+                    Save Credentials & Reconnect
+                  </button>
+                  <button type="button" class="btn btn-outline" onclick="testCurrentConnection()">
+                    Test Connection
+                  </button>
+                  <button type="button" class="btn btn-ghost" onclick="resetToDemoMode()" style="color: #ef4444;">
+                    Reset to Offline Demo Mode
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Database Setup Script Guide -->
+            <div class="card-panel">
+              <h2 class="card-panel-title" style="margin-bottom: 1rem;">Database Schema Setup (SQL)</h2>
+              <p style="color: var(--admin-text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                If you just created your Supabase project, execute the SQL script in your Supabase SQL Editor to create tables, RLS policies, and sample data.
+              </p>
+
+              <div class="sql-preview-box" id="sql-preview-box">-- Ready to configure schema:
+-- 1. Open your Supabase Dashboard
+-- 2. Click "SQL Editor" in the left sidebar
+-- 3. Click "New query"
+-- 4. Copy and paste the contents of `supabase-schema.sql` from your project folder
+-- 5. Click "Run"</div>
+
+              <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                <button class="btn btn-outline btn-sm" onclick="copySqlSchema()">
+                  Copy SQL Script Instructions
+                </button>
+                <a href="supabase-schema.sql" target="_blank" class="btn btn-outline btn-sm">
+                  View Raw SQL File &nearr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Course Add/Edit Modal -->
+  <div id="course-edit-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="course-modal-heading" class="modal-title">Add New Course Track</h3>
+        <button class="modal-close-btn" onclick="closeCourseEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="course-edit-form" onsubmit="handleSaveCourse(event)">
+          <input type="hidden" id="edit_course_id">
+
+          <div class="form-group">
+            <label class="form-label" for="edit_title">Course Title *</label>
+            <input type="text" id="edit_title" class="form-input" placeholder="e.g. Cloud Architecture & DevOps" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="edit_category">Category *</label>
+              <select id="edit_category" class="form-select" required>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Cyber Security">Cyber Security</option>
+                <option value="Cloud & DevOps">Cloud & DevOps</option>
+                <option value="AI & Data Science">AI & Data Science</option>
+                <option value="Networking">Networking</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit_level">Skill Level *</label>
+              <select id="edit_level" class="form-select" required>
+                <option value="Beginner to Pro">Beginner to Pro</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+                <option value="All Levels">All Levels</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="edit_duration">Duration *</label>
+              <input type="text" id="edit_duration" class="form-input" placeholder="e.g. 20 Weeks" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit_fee">Tuition Fee ($) *</label>
+              <input type="number" id="edit_fee" class="form-input" placeholder="1200" min="0" step="10" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="edit_badge">Highlight Badge</label>
+              <input type="text" id="edit_badge" class="form-input" placeholder="e.g. Bestseller, High Demand, Popular">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit_instructor">Instructor / Lead</label>
+              <input type="text" id="edit_instructor" class="form-input" placeholder="Senior Solutions Architect">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit_desc">Course Description *</label>
+            <textarea id="edit_desc" class="form-textarea" placeholder="Detailed track overview and skills covered..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit_syllabus">Curriculum Topics (One topic per line) *</label>
+            <textarea id="edit_syllabus" class="form-textarea" placeholder="Module 1: Foundations...&#10;Module 2: Advanced Labs...&#10;Module 3: Capstone..." style="min-height: 120px;" required></textarea>
+          </div>
+
+          <button type="submit" id="save-course-btn" class="btn btn-primary" style="width: 100%;">
+            Save Course to Database
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Details Modal -->
+  <div id="app-detail-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Applicant Profile</h3>
+          <p id="modal-app-id" style="font-size: 0.8rem; color: var(--admin-text-muted);"></p>
+        </div>
+        <button class="modal-close-btn" onclick="closeAppDetailModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-app-body">
+        <!-- Injected by js/admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Announcement Modal -->
+  <div id="announcement-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">Publish Notice / Announcement</h3>
+        <button class="modal-close-btn" onclick="closeAnnouncementModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="announcement-form" onsubmit="handleSaveAnnouncement(event)">
+          <div class="form-group">
+            <label class="form-label" for="ann_title">Notice Title *</label>
+            <input type="text" id="ann_title" class="form-input" placeholder="e.g. Fall 2026 Batch Admissions Open" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ann_category">Category</label>
+              <select id="ann_category" class="form-select">
+                <option value="Admissions">Admissions</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Event">Event</option>
+                <option value="Scholarship">Scholarship</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ann_link">Link Destination</label>
+              <input type="text" id="ann_link" class="form-input" placeholder="#courses or https://...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ann_content">Notice Message *</label>
+            <textarea id="ann_content" class="form-textarea" placeholder="Brief announcement text..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Publish Notice
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Supabase JS Client v2 from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Config & Unified Data Store -->
+  <script src="js/supabase-config.js"></script>
+  <!-- Admin Dashboard Logic -->
+  <script src="js/admin.js"></script>
+</body>
+</html>

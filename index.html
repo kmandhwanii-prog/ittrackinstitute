@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Track Institute | Premier Technology & Engineering Academy</title>
+  <meta name="description" content="Advance your career with industry-leading diplomas in Software Development, Cybersecurity, Cloud & DevOps, and AI. Connect with top tech employers.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Dynamic Announcement Bar -->
+  <div id="announcement-bar" class="announcement-bar">
+    <div class="container announcement-inner">
+      <span class="announcement-pill">Announcement</span>
+      <span id="announcement-text" class="announcement-text">Loading upcoming institute announcements...</span>
+      <a href="#apply" id="announcement-link" class="announcement-link">Learn More &rarr;</a>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <span>IT TRACK</span>
+        <span class="logo-badge">INSTITUTE</span>
+      </a>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#courses" class="nav-link">Courses</a></li>
+        <li><a href="#why-us" class="nav-link">Why Choose Us</a></li>
+        <li><a href="#curriculum" class="nav-link">Methodology</a></li>
+        <li><a href="#testimonials" class="nav-link">Success Stories</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="admin.html" class="btn btn-outline btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Admin Portal
+        </a>
+        <button class="btn btn-primary btn-sm" onclick="openApplyModal()">Apply Now</button>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero text-center">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="ping-dot"></span>
+        <span>Admissions Open for Fall 2026 Batch &bull; Limited Cohorts</span>
+      </div>
+
+      <h1 class="hero-title">
+        Accelerate Your Career with Real-World <span class="text-gradient">Tech Engineering</span>
+      </h1>
+      
+      <p class="hero-subtitle">
+        Intensive, project-driven training in Software Development, Cybersecurity, Cloud & DevOps, and Applied AI. Mentored directly by Silicon Valley and global industry veterans.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#courses" class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+          Explore Professional Tracks
+        </a>
+        <button class="btn btn-outline" onclick="openApplyModal()" style="padding: 0.85rem 1.8rem; font-size: 1rem;">
+          Fast-Track Enrollment
+        </button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number text-gradient">98.4%</div>
+          <div class="stat-label">Career Placement Rate</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">15,000+</div>
+          <div class="stat-label">Graduates Worldwide</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number text-cyan">50+</div>
+          <div class="stat-label">Enterprise Hiring Partners</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number text-emerald">$85k</div>
+          <div class="stat-label">Average Starting Package</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses Section -->
+  <section id="courses" class="section-padding">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">Industry-Certified Programs</span>
+        <h2 class="section-title">Explore Our Professional Tracks</h2>
+        <p class="section-desc">
+          Rigorous curricula designed in partnership with leading tech enterprises. Graduate with production-ready portfolios and globally accredited certifications.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="filter-tabs">
+        <button class="filter-btn active" data-category="all">All Tracks</button>
+        <button class="filter-btn" data-category="Software Engineering">Software Engineering</button>
+        <button class="filter-btn" data-category="Cyber Security">Cyber Security</button>
+        <button class="filter-btn" data-category="Cloud & DevOps">Cloud & DevOps</button>
+        <button class="filter-btn" data-category="AI & Data Science">AI & Data Science</button>
+        <button class="filter-btn" data-category="Networking">Networking</button>
+        <button class="filter-btn" data-category="UI/UX Design">UI/UX Design</button>
+      </div>
+
+      <!-- Courses Grid Container -->
+      <div class="courses-grid" id="courses-container">
+        <!-- Dynamically injected by js/main.js from Supabase -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section id="why-us" class="section-padding" style="background: rgba(15, 23, 42, 0.4);">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">The IT Track Advantage</span>
+        <h2 class="section-title">Why Ambitious Engineers Choose IT Track</h2>
+        <p class="section-desc">
+          We bridge the gap between textbook theory and enterprise engineering requirements.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrap feature-icon-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">Live Cloud & Code Labs</h3>
+          <p class="feature-desc">
+            No mock environments. Practice in real cloud sandboxes, build production microservices, and defend simulated live network attacks.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feature-icon-cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">1-on-1 Mentor Guidance</h3>
+          <p class="feature-desc">
+            Weekly code reviews and pair programming sessions with Senior Software Engineers and Solutions Architects from Tier-1 tech firms.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feature-icon-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Career Placement Cell</h3>
+          <p class="feature-desc">
+            Dedicated resume polish, mock behavioral & technical whiteboard interviews, and direct interviews scheduled with 50+ hiring partners.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap feature-icon-emerald">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <h3 class="feature-title">Accredited Credentials</h3>
+          <p class="feature-desc">
+            Earn globally verifiable digital credentials integrated with LinkedIn and recognized by international engineering standards.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Success Stories -->
+  <section id="testimonials" class="section-padding">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">Alumni Testimonials</span>
+        <h2 class="section-title">From Students to Hired Engineers</h2>
+        <p class="section-desc">
+          Hear how IT Track Institute transformed our graduates' trajectories.
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">
+            "Before IT Track, I was struggling with online tutorials that lacked real context. The full stack curriculum and rigorous code reviews helped me land an SDE position at a fintech company within 3 months of graduation."
+          </p>
+          <div class="author-meta">
+            <div class="author-avatar">DK</div>
+            <div>
+              <div class="author-name">David Kim</div>
+              <div class="author-role">Full Stack Engineer @ FinScale</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">
+            "The ethical hacking and network security labs are phenomenal. You get hands-on experience defending against real attack vectors. The mentor helped me pass both CompTIA Security+ and CEH on my first try."
+          </p>
+          <div class="author-meta">
+            <div class="author-avatar">PR</div>
+            <div>
+              <div class="author-name">Priya Ramesh</div>
+              <div class="author-role">Cyber Security Analyst @ CyberDefend</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">
+            "Transitioned from non-tech into Cloud DevOps. Learning Terraform and Kubernetes directly through production projects made technical interviews effortless. IT Track is worth every dollar."
+          </p>
+          <div class="author-meta">
+            <div class="author-avatar">JG</div>
+            <div>
+              <div class="author-name">Julian Gomez</div>
+              <div class="author-role">Cloud DevOps Engineer @ CloudNexus</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Inquiry Section -->
+  <section id="contact" class="section-padding">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info-col">
+          <span class="section-tag">Get in Touch</span>
+          <h3>Ready to Begin Your Journey?</h3>
+          <p>
+            Have questions about syllabus details, installment plans, or corporate team training? Speak with an academic advisor today.
+          </p>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Main Campus</div>
+              <div class="contact-val">IT Track Tech Hub, 450 Innovation Way, Suite 800</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Admissions Email</div>
+              <div class="contact-val">admissions@ittrackinstitute.edu</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Advising Hotline</div>
+              <div class="contact-val">+1 (800) 555-IT-TRACK</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-col">
+          <form id="inquiry-form" onsubmit="handleInquirySubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="inq_name">Full Name *</label>
+                <input type="text" id="inq_name" class="form-input" placeholder="e.g. Jordan Miller" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="inq_email">Email Address *</label>
+                <input type="email" id="inq_email" class="form-input" placeholder="jordan@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="inq_phone">Phone Number</label>
+                <input type="tel" id="inq_phone" class="form-input" placeholder="+1 (555) 000-0000">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="inq_subject">Inquiry Subject *</label>
+                <select id="inq_subject" class="form-select" required>
+                  <option value="General Admission Questions">General Admission Questions</option>
+                  <option value="Course Curriculum Details">Course Curriculum Details</option>
+                  <option value="Scholarships & Financial Aid">Scholarships & Financial Aid</option>
+                  <option value="Corporate Cohort Training">Corporate Cohort Training</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="inq_message">Your Message *</label>
+              <textarea id="inq_message" class="form-textarea" placeholder="Tell us about your background or any questions you have..." required></textarea>
+            </div>
+
+            <button type="submit" id="inq-submit-btn" class="btn btn-primary" style="width: 100%;">
+              Send Inquiry to Admissions
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+            <span>IT TRACK</span>
+          </a>
+          <p>
+            Equipping aspiring developers, security analysts, and cloud engineers with the technical skills to build tomorrow's infrastructure.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Programs</h4>
+          <ul class="footer-links">
+            <li><a href="#courses">Software Engineering</a></li>
+            <li><a href="#courses">Cyber Security Defense</a></li>
+            <li><a href="#courses">Cloud & DevOps</a></li>
+            <li><a href="#courses">Applied AI & Machine Learning</a></li>
+            <li><a href="#courses">Cisco Network Engineering</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="#curriculum">Learning Methodology</a></li>
+            <li><a href="#testimonials">Graduate Placement Report</a></li>
+            <li><a href="#why-us">Scholarship Criteria</a></li>
+            <li><a href="admin.html">Admin Management Panel</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Campus</h4>
+          <ul class="footer-links">
+            <li><a href="#contact">Campus Tours</a></li>
+            <li><a href="#contact">Advising Office</a></li>
+            <li><a href="#contact">Corporate Partnerships</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 IT Track Institute. All Rights Reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Enrollment</a>
+          <a href="admin.html">Staff Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Course Syllabus & Details Modal -->
+  <div id="course-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <span id="modal-course-category" class="course-category">Category</span>
+          <h3 id="modal-course-title" class="modal-title" style="margin-top: 0.4rem;">Course Title</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeCourseModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-course-desc" style="color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem;"></p>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md);">
+          <div><strong>Duration:</strong> <span id="modal-course-duration"></span></div>
+          <div><strong>Level:</strong> <span id="modal-course-level"></span></div>
+          <div><strong>Tuition:</strong> <span id="modal-course-fee" style="color: #34d399; font-weight: 700;"></span></div>
+          <div><strong>Instructor:</strong> <span id="modal-course-instructor"></span></div>
+        </div>
+
+        <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Comprehensive Syllabus & Curriculum</h4>
+        <ul id="modal-syllabus-list" class="syllabus-list">
+          <!-- Populated dynamically -->
+        </ul>
+
+        <button id="modal-apply-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Apply for this Course
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Application / Enrollment Modal -->
+  <div id="apply-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Student Application</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Enroll in IT Track Institute &bull; Fall 2026 Cohort</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeApplyModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="application-form" onsubmit="handleApplicationSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="app_course">Select Program *</label>
+            <select id="app_course" class="form-select" required>
+              <!-- Dynamically populated with active courses -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="app_name">Full Name *</label>
+              <input type="text" id="app_name" class="form-input" placeholder="e.g. Alex Morgan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="app_email">Email Address *</label>
+              <input type="email" id="app_email" class="form-input" placeholder="alex@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="app_phone">Phone Number *</label>
+              <input type="tel" id="app_phone" class="form-input" placeholder="+1 (555) 123-4567" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="app_timing">Preferred Schedule *</label>
+              <select id="app_timing" class="form-select">
+                <option value="Weekday Morning">Weekday Morning (9 AM - 1 PM)</option>
+                <option value="Weekday Evening">Weekday Evening (6 PM - 9 PM)</option>
+                <option value="Weekend Intensive">Weekend Intensive (Sat & Sun)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="app_experience">Current Technical Experience *</label>
+            <select id="app_experience" class="form-select" required>
+              <option value="Complete Beginner">Complete Beginner (No prior coding / IT)</option>
+              <option value="Some Coding / IT Background">Some Coding / IT Background (Self-taught / University)</option>
+              <option value="Working Professional">Working Professional (Looking to switch or upskill)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="app_statement">Why do you want to join this program?</label>
+            <textarea id="app_statement" class="form-textarea" placeholder="Tell us briefly about your goals and motivations..."></textarea>
+          </div>
+
+          <button type="submit" id="app-submit-btn" class="btn btn-primary" style="width: 100%;">
+            Submit Application
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Supabase JS Client v2 from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Config & Unified Data Store -->
+  <script src="js/supabase-config.js"></script>
+  <!-- Public Main Logic -->
+  <script src="js/main.js"></script>
+</body>
+</html>
